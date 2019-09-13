@@ -1,6 +1,6 @@
 <template lang="pug">
 div.tile.notification
-	b-tabs(v-model="activeTab")
+	b-tabs.is-fullwidth(v-model="activeTab")
 		b-tab-item(label="Guests")
 			b-table(:data="guests")
 				template(slot-scope="props")

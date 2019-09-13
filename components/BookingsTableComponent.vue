@@ -44,8 +44,8 @@ div
 			 this.detailsModal.data=details;
 			 this.detailsModal.display=true
 		 },
-		 onSort(){
-
+		 onSort(field, order){
+			 this.$emit('sortBy', {field, order})
 		 }
 	 }
  }

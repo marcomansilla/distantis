@@ -8,7 +8,7 @@ div
 
 			b-field.column(label="Select Checkout Date")
 				b-datepicker(:show-week-number="false", placehoder="Click to select", icon="calendar-today")
-	bookings-table-component(:data="response_bookings")
+	bookings-table-component(:data="response_bookings", @sortBy="fetchSorted")
 	br
 	pagination-component(:data="response_pagination", @paginate="browseReservations")
 	b-loading(:is-full-page="true" :active.sync="response_bookings.length==0" :can-cancel="false")
@@ -55,6 +55,10 @@ div
 						  this.response_pagination=response.data.data.pagination;
 					  }
 				  })
+		 },
+		 fetchSorted(data){
+			 this.reservationParams.sort=data;
+			 this.fetchReservations()
 		 },
 		 browseReservations(data){
 			 this.reservationParams.pagination.page=data;
