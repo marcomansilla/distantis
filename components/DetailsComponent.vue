@@ -11,9 +11,9 @@ div.tile.notification
 		b-tab-item(label="Details")
 			b-table(:data="details")
 				template(slot-scope="props")
+					b-table-column(field="date", label="Date") {{props.row.date}}
 					b-table-column(field="base_value", label="Base Value") {{props.row.base_value}}
 					b-table-column(field="total", label="Total") {{props.row.total}}
-					b-table-column(field="total_with_tax", label="Total with Tax") {{props.row.total_with_tax}}
 					b-table-column(field="total_with_tax", label="Total with Tax") {{props.row.total_with_tax}}
 </template>
 
