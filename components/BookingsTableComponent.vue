@@ -1,47 +1,51 @@
 <template lang="pug">
-b-table(:data="data", :columns="columns", detailed, detail-key="id", @details-open="(row, index) => $buefy.toast.open(`Expanded ${row.hotel}`)")
-	template(slot="detail", slot-scope="data")
-		b-table(field="adults",visible="true", Label="Adults") {{data.row}}
+div
+	b-table(:data="data", backend-sorting, :default-sort-direction="defaultSortOrder", :default-sort="[sortField, sortOrder]", @sort="onSort")
+		template(slot-scope="props")
+			b-table-column(field="id", label="ID", sortable) {{props.row.id}}
+			b-table-column(field="hotel", label="Hotel", sortable) {{props.row.hotel}}
+			b-table-column(field="status", label="Status", sortable) {{props.row.status}}
+			b-table-column(field="checkin", label="Checkin", sortable) {{props.row.checkin}}
+			b-table-column(field="checkout", label="Checkout", sortable) {{props.row.checkout}}
+			b-table-column(field="town", label="Town", sortable) {{props.row.town}}
+			b-table-column(field="cancellation_date", label="Cancellation Date", sortable) {{props.row.cancellation_date}}
+			b-table-column(field="adults", label="Adults", centered) {{props.row.adults}}
+			b-table-column(field="children", label="Children", centered) {{props.row.children}}
+			b-table-column(label="Details", centered)
+				button.button.is-primary(@click="showDetails(props.row)")
+					b-icon(icon="card-search")
+
+	b-modal(:active.sync="detailsModal.display")
+		details-component(:booking="detailsModal.data.id", :guests="detailsModal.data.guests", :details="detailsModal.data.details")
 
 </template>
 
 <script>
+ import DetailsComponent from '@/components/DetailsComponent.vue'
+
  export default {
 	 props:['data'],
+	 components:{
+		 DetailsComponent
+	 },
 	 data(){
 		 return {
-			 columns: [
-				 {
-					 field: 'id',
-					 label: 'ID',
-					 width: '40',
-					 numeric: true
-				 },
-				 {
-					 field: 'hotel',
-					 label: 'Hotel',
-				 },
-				 {
-					 field: 'status',
-					 label: 'Status',
-				 },
-				 {
-					 field: 'checkin',
-					 label: 'Checkin',
-				 },
-				 {
-					 field: 'checkout',
-					 label: 'Checkout',
-				 },
-				 {
-					 field: 'town',
-					 label: 'Town'
-				 },
-				 {
-					 field: 'cancellation_date',
-					 label: 'Cancellation Date'
-				 }
-			 ]
+			 detailsModal:{
+				 display:false,
+				 data:[]
+			 },
+			 sortField:'id',
+			 sortOrder:'desc',
+			 defaultSortOrder:'desc',
+		 }
+	 },
+	 methods:{
+		 showDetails(details){
+			 this.detailsModal.data=details;
+			 this.detailsModal.display=true
+		 },
+		 onSort(){
+
 		 }
 	 }
  }
