@@ -3,15 +3,17 @@ div
 	h2.title.is-2 Bookings listing
 	div
 		b-field.is-horizontal
-			b-field.column(label="Select Checkin Date")
-				b-datepicker(:show-week-number="false", placehoder="Click to select", icon="calendar-today")
+			b-field.column(label="Select Checkin Date", label-position="inside")
+				b-input(type="date", v-model="reservationParams.startDate", icon-left="calendar-month")
+			b-field.column(label="Select Checkout Date", label-position="inside")
+				b-input(type="date", v-model="reservationParams.endDate", icon-left="calendar-month")
 
-			b-field.column(label="Select Checkout Date")
-				b-datepicker(:show-week-number="false", placehoder="Click to select", icon="calendar-today")
+			b-field.column
+				b-button.is-medium.is-fullwidth.is-primary(type="submit", @click="filterBookings") Apply filter
 	bookings-table-component(:data="response_bookings", @sortBy="fetchSorted")
 	br
 	pagination-component(:data="response_pagination", @paginate="browseReservations")
-	b-loading(:is-full-page="true" :active.sync="response_bookings.length==0" :can-cancel="false")
+	b-loading(:is-full-page="true" :active.sync="loadingData" :can-cancel="false")
 </template>
 
 <script>
@@ -26,6 +28,7 @@ div
 	 },
 	 data(){
 		 return {
+			 loadingData:false,
 			 response_bookings:[],
 			 response_pagination:{},
 			 reservationParams:{
@@ -48,11 +51,25 @@ div
 	 },
 	 methods:{
 		 fetchReservations(){
+			 this.loadingData=true;
 			 axios.post(`${process.env.BOOKING_URL}`, this.reservationParams, {headers:{Authorization: `Bearer ${this.auth.jwt_token}`}})
 				  .then(response=>{
 					  if (response.data.errors.length==0){
 						  this.response_bookings=response.data.data.bookings;
 						  this.response_pagination=response.data.data.pagination;
+						  this.loadingData=false;
+					  }else if (response.data.errors[0]=='No booking found.') {
+						  this.$buefy.dialog.alert({
+							  title: 'Error',
+							  message: 'No records have been found on the selected dates, please try again',
+							  type: 'is-danger',
+							  hasIcon: true,
+							  icon: 'times-circle',
+							  iconPack: 'fa'
+						  });
+						  this.response_bookings=[];
+						  this.response_pagination={};
+						  this.loadingData=false;
 					  }
 				  })
 		 },
@@ -63,8 +80,10 @@ div
 		 browseReservations(data){
 			 this.reservationParams.pagination.page=data;
 			 this.fetchReservations()
+		 },
+		 filterBookings(){
+			 this.fetchReservations()
 		 }
-
 	 },
 	 mounted(){
 		 this.fetchReservations()
