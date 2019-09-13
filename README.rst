@@ -25,6 +25,7 @@ Se ha desarrollado en base a lo requerido, utilizando:
 - SCSS
 - Pug para templates html
 - Buefy para los componentes de la interfaz.
+- webpack
 
 todo se ha integrado usando NuxtJS_ .
 
@@ -33,7 +34,7 @@ Instalacion
 
 Clonar el este repositorio
 
- *git clone https://github.com/distantis*
+ *git clone https://github.com/marcomansilla/distantis*
 
 luego
 
@@ -60,7 +61,7 @@ Estructura del directorio
 - */static* Esta mapeado a la raiz del servidor y contiene archivos que no cambiaran.
 - */store* Contiene los archivos de Vuex, incluido por defecto en NuxtJS.
 - *nuxt.config.js* Contiene toda la configuracion personalizada de NuxtJS.
-- *package.json* Contiene los scripts y las dependencias de la aplcacion.
+- *package.json* Contiene los scripts y las dependencias de la aplicacion.
 
 Archivos importantes
 --------------------
