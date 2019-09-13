@@ -69,7 +69,6 @@ div
 						  this.response_bookings=response.data.data.bookings;
 						  this.response_pagination=response.data.data.pagination;
 						  this.loadingData=false;
-						  this.$buefy.toast.open(`${response.data.data.pagination.total} records found`)
 					  }else if (response.data.errors[0]=='No booking found.') {
 						  this.$buefy.dialog.alert({
 							  title: 'Error',
