@@ -2,20 +2,17 @@
 div
 	h2.title.is-2 Bookings listing
 	div
-		b-field.columns.is-horizontal
-			b-field.column(label="Select Checkin Date", label-position="inside")
-				b-input(type="date", v-model="reservationParams.startDate", icon-left="calendar-month")
+		b-field.columns(horizontal)
+			b-field.is-one-third(label="Select Dates", label-position="inside", expanded, @change="setDates()")
+				b-datepicker(v-model="dates" placeholder="Dates", range)
 
-			b-field.column(label="Select Checkout Date", label-position="inside")
-				b-input(type="date", v-model="reservationParams.endDate", icon-left="calendar-month")
-
-			b-field.column(label="Records Per page", label-position="inside")
-				b-select(placeholder="Select Records per page", v-model="reservationParams.pagination.per_page" expanded)
+			b-field.is-one-third(label="Records Per page", label-position="inside")
+				b-select(placeholder="Select Records per page", v-model="reservationParams.pagination.per_page", expanded)
 					option(v-for="pnum in page_limit" :value="pnum" :selected="pnum==reservationParams.pagination.per_page") {{pnum}}
 
-			b-field.column
-				b-button.is-medium.is-fullwidth.is-primary(type="submit", @click="filterBookings") Apply filter
-
+			b-field.is-one-third
+				b-button.is-medium.is-primary(type="submit", @click="filterBookings", expanded) Apply filter
+	br
 	bookings-table-component(:data="response_bookings", @sortBy="fetchSorted")
 	br
 	pagination-component(:data="response_pagination", @paginate="browseReservations")
@@ -27,6 +24,7 @@ div
  import { mapGetters } from 'vuex'
  import PaginationComponent from '@/components/PaginationComponent.vue'
  import BookingsTableComponent from '@/components/BookingsTableComponent.vue'
+
  export default {
 	 components:{
 		 BookingsTableComponent,
@@ -34,7 +32,8 @@ div
 	 },
 	 data(){
 		 return {
-			 page_limit:[5,10,15,20,30],
+			 dates:[],
+			 page_limit:[5,10,15,20,25,30],
 			 loadingData:false,
 			 response_bookings:[],
 			 response_pagination:{},
@@ -57,6 +56,9 @@ div
 		 ...mapGetters(['auth'])
 	 },
 	 methods:{
+		 setDates(){
+			 console.log(dates)
+		 },
 		 fetchReservations(){
 			 this.loadingData=true;
 			 axios.post(`${process.env.BOOKING_URL}`, this.reservationParams, {headers:{Authorization: `Bearer ${this.auth.jwt_token}`}})

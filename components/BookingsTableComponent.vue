@@ -16,7 +16,7 @@ div
 					b-icon(icon="card-search")
 
 	b-modal(:active.sync="detailsModal.display")
-		details-component(:booking="detailsModal.data.id", :guests="detailsModal.data.guests", :details="detailsModal.data.details")
+		details-component(:booking="detailsModal.data")
 
 </template>
 
@@ -43,6 +43,7 @@ div
 		 showDetails(details){
 			 this.detailsModal.data=details;
 			 this.detailsModal.display=true
+			 console.log(this.detailsModal.data.id)
 		 },
 		 onSort(field, order){
 			 this.$emit('sortBy', {field, order})
