@@ -43,7 +43,6 @@ div
 		 showDetails(details){
 			 this.detailsModal.data=details;
 			 this.detailsModal.display=true
-			 console.log(this.detailsModal.data.id)
 		 },
 		 onSort(field, order){
 			 this.$emit('sortBy', {field, order})

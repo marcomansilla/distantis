@@ -1,17 +1,16 @@
 <template lang="pug">
 div
 	h2.title.is-2 Bookings listing
-	div
-		b-field.columns(horizontal)
-			b-field.is-one-third(label="Select Dates", label-position="inside", expanded, @change="setDates()")
-				b-datepicker(v-model="dates" placeholder="Dates", range)
+	div.columns
+		b-field.column.is-one-third(label="Select Dates", label-position="inside", expanded, @change="setDates()")
+			b-datepicker(v-model="dates" placeholder="Dates", range)
 
-			b-field.is-one-third(label="Records Per page", label-position="inside")
-				b-select(placeholder="Select Records per page", v-model="reservationParams.pagination.per_page", expanded)
-					option(v-for="pnum in page_limit" :value="pnum" :selected="pnum==reservationParams.pagination.per_page") {{pnum}}
+		b-field.column.is-one-third(label="Records Per page", label-position="inside")
+			b-select(placeholder="Select Records per page", v-model="reservationParams.pagination.per_page", expanded)
+				option(v-for="pnum in page_limit" :value="pnum" :selected="pnum==reservationParams.pagination.per_page") {{pnum}}
 
-			b-field.is-one-third
-				b-button.is-medium.is-primary(type="submit", @click="filterBookings", expanded) Apply filter
+		b-field.column.is-one-third
+			b-button.is-large.is-primary.is-fullwidth(type="submit", @click="filterBookings", expanded) Apply filter
 	br
 	bookings-table-component(:data="response_bookings", @sortBy="fetchSorted")
 	br
@@ -55,10 +54,13 @@ div
 	 computed:{
 		 ...mapGetters(['auth'])
 	 },
+	 watch:{
+		 dates(v){
+			 this.reservationParams.startDate = v[0].toISOString().split('T')[0]
+			 this.reservationParams.endDate = v[1].toISOString().split('T')[0]
+		 }
+	 },
 	 methods:{
-		 setDates(){
-			 console.log(dates)
-		 },
 		 fetchReservations(){
 			 this.loadingData=true;
 			 axios.post(`${process.env.BOOKING_URL}`, this.reservationParams, {headers:{Authorization: `Bearer ${this.auth.jwt_token}`}})
@@ -67,6 +69,7 @@ div
 						  this.response_bookings=response.data.data.bookings;
 						  this.response_pagination=response.data.data.pagination;
 						  this.loadingData=false;
+						  this.$buefy.toast.open(`${response.data.data.pagination.total} records found`)
 					  }else if (response.data.errors[0]=='No booking found.') {
 						  this.$buefy.dialog.alert({
 							  title: 'Error',
