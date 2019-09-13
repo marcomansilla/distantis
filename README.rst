@@ -62,7 +62,18 @@ Estructura del directorio
 - *nuxt.config.js* Contiene toda la configuracion personalizada de NuxtJS.
 - *package.json* Contiene los scripts y las dependencias de la aplcacion.
 
-Extas
+Archivos importantes
+--------------------
+
+- /layouts/defaul.vue contiene el layout principal de cada vista, tambien la funcionalidad de logout que trabaja con Vuex limpiando state.auth y las cookies.
+- /layouts/auth.vue contiene el layout para el login, sin mas que el formulario de login.
+- /components/LoginComponent.vue contiene la logica de autenticacion, escribe las cookies necesarias para interactuar con  la API.
+- /components/BookingsComponent.vue lista los datos de la API, pasando como props los datos necesarios a  BookingsTableComponent para generar la tabla, y la paginacion mediante PaginationComponent.
+- /views/* aqui las vistas importan los respectivos componentes para interactuar con el usuario.
+- /middleware/auth.js verifica que el usuario tenga un login activo para proceder, de no ser asi redirecciona a la pagina de /login.
+- /nuxt.config.js contiene los parametros necesarios para webpack, loaders, etc. tambien estan definidas en el mismo las variables de entorno necesarias para las llamadas a la API.
+
+Extras
 -----
 
 - En lugar de usar localStorage para almacenar el token JWT se utiliza Cookies para poder interactuar con VUEX.
