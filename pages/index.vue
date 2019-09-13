@@ -12,7 +12,6 @@ bookings-component
 		 ...mapGetters(['auth'])
 	 },
 	 mounted(){
-		 console.log(this.auth)
 	 }
  }
 </script>

@@ -1,25 +1,6 @@
 <template lang="pug">
 	div
-		nav.navbar.header.has-shadow.is-primary(role="navigation", aria-label="main navigation")
-			div.nav-brand
-				a.navbar-item
-					h3.title.is-2 Distantis
-		div.navbar-burger
-			span
-			span
-			span
-		section.main-content.columns
-			aside.column.is-2.section
-				p.menu-label.i-hidden-touch Menu
-				ul.menu-list
-					li
-						nuxt-link(to="/")
-							b-icon(icon="cogs")
-							span Admin
-					li
-						a(@click="logout")
-							b-icon(icon="exit-run")
-							span Exit
+		navbar-component(@logout="signout")
 
 		div.container.column.is-10
 			nuxt
@@ -27,17 +8,16 @@
 </template>
 
 <script>
+ import NavbarComponent from '@/components/NavbarComponent.vue';
  import { mapActions } from 'vuex';
  const Cookies = process.client ? require('js-cookie') : undefined;
 
  export default {
-	 data () {
-		 return {
-		 }
+	 components:{
+		 NavbarComponent
 	 },
-
 	 methods:{
-		 logout(){
+		 signout(){
 			 this.$buefy.dialog.confirm({
 				 title: 'Close Session',
 				 message: 'Are you sure you want to close the current session?',
