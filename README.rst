@@ -39,6 +39,7 @@ Clonar el este repositorio
 luego
 
  *cd distantis*
+
  *npm install*
 
 finalmente para arrancar en modo desarrollo de sebe iniciar la aplicacion con el siguiente comando.
@@ -47,7 +48,7 @@ finalmente para arrancar en modo desarrollo de sebe iniciar la aplicacion con el
 
 Para poder utilizar la version optimizada para produccion se debe ejecutar los siguientes comandos:
 
-*npm run build && npm run serve*
+ *npm run build && npm run serve*
 
 Estructura del directorio
 -------------------------
