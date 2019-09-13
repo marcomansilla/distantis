@@ -87,9 +87,6 @@ div
 	 },
 	 mounted(){
 		 this.fetchReservations()
-	 },
-	 created(){
-		 this.$on('paginate', (data)=>{console.log(data)})
 	 }
  }
 </script>
